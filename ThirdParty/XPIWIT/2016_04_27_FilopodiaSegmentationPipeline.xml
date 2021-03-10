@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpiwit>
+    <pipeline>
+        <item item_id="item_0029">
+            <name>BinaryImageToLabelMapFilter</name>
+            <description>Transforms binary image to a label map and creates the label image</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0017" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="FullyConnected" value="1" type="3" description="If turned on, 8/26 neighborhood is used, else 4/6 neighborhood is used for 2D/3D images, respectively."/>
+                <parameter key="InputForegroundValue" value="1" type="1" description="The input foreground value. Usually this should be set to 1."/>
+                <parameter key="OutputBackgroundValue" value="0" type="1" description="The output background value. Usually this should be set to 0."/>
+            </arguments>
+        </item>
+        <item item_id="item_0015">
+            <name>DiscreteGaussianImageFilter</name>
+            <description>Gaussian smothing filter. Filters the image with a gaussian kernel defined by variance.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0002" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="Variance" value="1.0" type="1" description="Variance of the gaussian kernel."/>
+                <parameter key="MaximumError" value="0.01" type="1" description="Maximum error of the gaussian function approximation."/>
+                <parameter key="MaximumKernelWidth" value="32" type="2" description="Maximum kernel size in pixel."/>
+                <parameter key="UseImageSpacing" value="1" type="3" description="Use the real spacing for the gaussian kernel creation."/>
+            </arguments>
+        </item>
+        <item item_id="item_0016">
+            <name>OtsuThresholdImageFilter</name>
+            <description>Threshold an image using the Otsu Threshold. Inside value 1, outside value 0</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0015" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+            </arguments>
+        </item>
+        <item item_id="item_0001">
+            <name>ImageReader</name>
+            <description>Reads image from disk</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="cmd" number_of_output="0"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="UseSeriesReader" value="0" type="3" description="Combine separate 2D images to one 3D stack. Drag&amp;drop first file of the series and substitute the series index by %0nd, with n being the number of digits."/>
+                <parameter key="SeriesMinIndex" value="0" type="2" description="Start index for the series reader"/>
+                <parameter key="SeriesMaxIndex" value="499" type="2" description="End index for the series reader"/>
+                <parameter key="SeriesIncrement" value="1" type="2" description="Index increment for the series reader"/>
+                <parameter key="SpacingX" value="1" type="1" description="Original spacing in the first dimension"/>
+                <parameter key="SpacingY" value="1" type="1" description="Original spacing in the second dimension"/>
+                <parameter key="SpacingZ" value="1" type="1" description="Original spacing in the third dimension"/>
+                <parameter key="InputMaximumValue" value="65535" type="1"/>
+            </arguments>
+        </item>
+        <item item_id="item_0017">
+            <name>BinaryMorphologicalOpeningImageFilter</name>
+            <description>Binary morphological opening of an image. Remove small structures.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0016" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="KernelRadius" value="3" type="2" description="Radius of the kernel."/>
+            </arguments>
+        </item>
+        <item item_id="item_0002">
+            <name>RescaleIntensityImageFilter</name>
+            <description>Rescales the image from min to max for integer types and from 0 to 1 for float types</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0001" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+            </arguments>
+        </item>
+        <item item_id="item_0003">
+            <name>HessianToObjectnessMeasureImageFilter</name>
+            <description>Uses the hessian eigenvalues to enhance specific structures in the image.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0033" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="1" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="Sigma" value="1" type="1" description="Variance used by the Hessian calculation."/>
+                <parameter key="Alpha" value="1.0" type="1" description="Alpha parameter for the objectness filter."/>
+                <parameter key="Beta" value="1.0" type="1" description="Beta parameter for the objectness filter."/>
+                <parameter key="Gamma" value="0.003" type="1" description="Gamma parameter for the objectness filter."/>
+                <parameter key="ScaleObjectnessMeasure" value="0" type="3" description="Scales the object measure if set on."/>
+                <parameter key="ObjectDimension" value="1" type="2" description="Set the dimension of the objects about to be emphasized."/>
+                <parameter key="BrightObject" value="1" type="3" description="Gamma parameter for the objectness filter."/>
+                <parameter key="FilterMask3D" value="1" type="3" description="Enhance objects in a slice by slice manner."/>
+            </arguments>
+        </item>
+        <item item_id="item_0004">
+            <name>LocalAdaptiveThresholdImageFilter</name>
+            <description>Performs a local adaptive thresholding of the input image.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0003" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="OutsideValue" value="0.0" type="1" description="Specifies the outside value, i.e., the background intensity."/>
+                <parameter key="InsideValue" value="1.0" type="1" description="Specifies the inside value, i.e., the foreground intensity."/>
+                <parameter key="StdDevMultiplier" value="1" type="1" description="Specifies the multiplier for the standard deviation, default is zero."/>
+                <parameter key="Radius" value="200" type="1" description="The radius of the sampling region."/>
+                <parameter key="Offset" value="0.0" type="1" description="The offset, i.e., foreground regions have to be above this value."/>
+            </arguments>
+        </item>
+        <item item_id="item_0008">
+            <name>DoGFilter</name>
+            <description>Difference of Gaussian Filter. The input image will be processed with the first gaussian kernel and subtracted by the result of the filtering with the second gaussian kernel.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0033" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="Sigma1" value="2" type="1" description="Sigma value of the smaller gaussian kernel"/>
+                <parameter key="Sigma2" value="3" type="1" description="Sigma value of the bigger gaussian kernel"/>
+                <parameter key="MaximumError" value="0.01" type="1" description="Maximum error of the gaussian function approximation"/>
+                <parameter key="MaximumKernelWidth" value="32" type="2" description="Maximum radius of the kernel in pixel"/>
+                <parameter key="UseImageSpacing" value="1" type="3" description="Use the real spacing for the gaussian kernel creation"/>
+            </arguments>
+        </item>
+        <item item_id="item_0030">
+            <name>ExtractRegionPropsFilter</name>
+            <description>Extracts the region properties of the image</description>
+            <input number_images="2" number_meta="0">
+                <image item_id_ref="item_0029" number_of_output="1" type_number="1"/>
+                <image item_id_ref="item_0017" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="0" number_meta="1">
+                <meta number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="BinaryInput" value="0" type="3" description="If input is binary, a label image is generated before extracting the region properties."/>
+                <parameter key="Threshold" value="-1" type="1" description="If input is binary, recreate a binary image to get rid of casting failures (-1 no recalculation)."/>
+                <parameter key="FullyConnected" value="1" type="3" description="Determines the connectivity model. Use FullyConnected = 1 for 8/26-neighborhood or to 0 for 4/6 neighborhood."/>
+                <parameter key="GeometryMode" value="1" type="3" description="Switch between geometry and statistics mode"/>
+                <parameter key="MinimumVolume" value="0" type="2" description="All regions with smaller volume are suppressed. E.g. helpful for noise suppression in the EDM-based seed detection."/>
+                <parameter key="MaximumVolume" value="-1" type="2" description="All regions with larger volume are suppressed. E.g. helpful for background suppression."/>
+            </arguments>
+        </item>
+        <item item_id="item_0031">
+            <name>LabelImageToTrackletIDImageFilter</name>
+            <description>Converts the provided label image to a tracklet id image.</description>
+            <input number_images="1" number_meta="1">
+                <image item_id_ref="item_0029" number_of_output="1" type_number="1"/>
+                <meta item_id_ref="item_0030" number_of_output="1" type_number="0"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="TrackletIDIndex" value="1" type="2" description="The tracklet id index used for the label conversion."/>
+                <parameter key="LabelOffset" value="0" type="2" description="The offset added to the image labels, if csv labels are shifted (e.g. C -&gt; Matlab convention)."/>
+                <parameter key="IntensityScale" value="1.0" type="1" description="Intensity scale: If set, the input intensities are multiplied by this factor."/>
+            </arguments>
+        </item>
+        <item item_id="item_0032">
+            <name>BinaryThresholdImageFilter</name>
+            <description>Creates a binary image </description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0031" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="LowerThreshold" value="1000" type="1" description="Defines the lower threshold"/>
+                <parameter key="UpperThreshold" value="999999" type="1" description="Defines the upper threshold"/>
+                <parameter key="OutsideValue" value="0.0" type="1" description="Defines the value outside of the thresholds"/>
+                <parameter key="InsideValue" value="1.0" type="1" description="Defines the value within the thresholds"/>
+            </arguments>
+        </item>
+        <item item_id="item_0033">
+            <name>DiscreteGaussianImageFilter</name>
+            <description>Gaussian smothing filter. Filters the image with a gaussian kernel defined by variance.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0002" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="Variance" value="1" type="1" description="Variance of the gaussian kernel."/>
+                <parameter key="MaximumError" value="0.01" type="1" description="Maximum error of the gaussian function approximation."/>
+                <parameter key="MaximumKernelWidth" value="32" type="2" description="Maximum kernel size in pixel."/>
+                <parameter key="UseImageSpacing" value="1" type="3" description="Use the real spacing for the gaussian kernel creation."/>
+            </arguments>
+        </item>
+        <item item_id="item_0034">
+            <name>BinaryDilateImageFilter</name>
+            <description>Binary dilation. Expand binary regions.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0032" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="KernelRadius" value="2" type="2" description="Radius of the kernel."/>
+            </arguments>
+        </item>
+        <item item_id="item_0020">
+            <name>AddImageFilter</name>
+            <description>Pixel-wise addition of two images or a constant.</description>
+            <input number_images="2" number_meta="0">
+                <image item_id_ref="item_0004" number_of_output="1" type_number="1"/>
+                <image item_id_ref="item_0034" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="Constant" value="0" type="1" description="If non-zero, this is used instead of the second input image for multiplication."/>
+            </arguments>
+        </item>
+        <item item_id="item_0022">
+            <name>BinaryImageToLabelMapFilter</name>
+            <description>Transforms binary image to a label map and creates the label image</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0023" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="FullyConnected" value="1" type="3" description="If turned on, 8/26 neighborhood is used, else 4/6 neighborhood is used for 2D/3D images, respectively."/>
+                <parameter key="InputForegroundValue" value="1" type="1" description="The input foreground value. Usually this should be set to 1."/>
+                <parameter key="OutputBackgroundValue" value="0" type="1" description="The output background value. Usually this should be set to 0."/>
+            </arguments>
+        </item>
+        <item item_id="item_0023">
+            <name>BinaryThresholdImageFilter</name>
+            <description>Creates a binary image </description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0020" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="LowerThreshold" value="1e-05" type="1" description="Defines the lower threshold"/>
+                <parameter key="UpperThreshold" value="65535" type="1" description="Defines the upper threshold"/>
+                <parameter key="OutsideValue" value="0.0" type="1" description="Defines the value outside of the thresholds"/>
+                <parameter key="InsideValue" value="1.0" type="1" description="Defines the value within the thresholds"/>
+            </arguments>
+        </item>
+        <item item_id="item_0024">
+            <name>LabelImageToTrackletIDImageFilter</name>
+            <description>Converts the provided label image to a tracklet id image.</description>
+            <input number_images="1" number_meta="1">
+                <image item_id_ref="item_0022" number_of_output="1" type_number="1"/>
+                <meta item_id_ref="item_0025" number_of_output="1" type_number="0"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="TrackletIDIndex" value="1" type="2" description="The tracklet id index used for the label conversion."/>
+                <parameter key="LabelOffset" value="0" type="2" description="The offset added to the image labels, if csv labels are shifted (e.g. C -&gt; Matlab convention)."/>
+                <parameter key="IntensityScale" value="1.0" type="1" description="Intensity scale: If set, the input intensities are multiplied by this factor."/>
+            </arguments>
+        </item>
+        <item item_id="item_0025">
+            <name>ExtractRegionPropsFilter</name>
+            <description>Extracts the region properties of the image</description>
+            <input number_images="2" number_meta="0">
+                <image item_id_ref="item_0022" number_of_output="1" type_number="1"/>
+                <image item_id_ref="item_0023" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="0" number_meta="1">
+                <meta number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="BinaryInput" value="0" type="3" description="If input is binary, a label image is generated before extracting the region properties."/>
+                <parameter key="Threshold" value="-1" type="1" description="If input is binary, recreate a binary image to get rid of casting failures (-1 no recalculation)."/>
+                <parameter key="FullyConnected" value="1" type="3" description="Determines the connectivity model. Use FullyConnected = 1 for 8/26-neighborhood or to 0 for 4/6 neighborhood."/>
+                <parameter key="GeometryMode" value="1" type="3" description="Switch between geometry and statistics mode"/>
+                <parameter key="MinimumVolume" value="0" type="2" description="All regions with smaller volume are suppressed. E.g. helpful for noise suppression in the EDM-based seed detection."/>
+                <parameter key="MaximumVolume" value="-1" type="2" description="All regions with larger volume are suppressed. E.g. helpful for background suppression."/>
+            </arguments>
+        </item>
+        <item item_id="item_0027">
+            <name>BinaryThresholdImageFilter</name>
+            <description>Creates a binary image </description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0024" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="1" type="3" description="Write output to disk"/>
+                <parameter key="WriteMetaData" value="1" type="3" description="Write meta data to disk"/>
+                <parameter key="MaxThreads" value="8" type="2" description="Define the maximum number of concurrent threads"/>
+                <parameter key="Compression" value="1" type="3" description="If set to 1, compression is used for file saving."/>
+                <parameter key="Precision" value="16" type="2" description="Switch between uint8 and uint16 result image types."/>
+                <parameter key="LowerThreshold" value="50" type="1" description="Defines the lower threshold"/>
+                <parameter key="UpperThreshold" value="999999" type="1" description="Defines the upper threshold"/>
+                <parameter key="OutsideValue" value="0.0" type="1" description="Defines the value outside of the thresholds"/>
+                <parameter key="InsideValue" value="1.0" type="1" description="Defines the value within the thresholds"/>
+            </arguments>
+        </item>
+    </pipeline>
+</xpiwit>

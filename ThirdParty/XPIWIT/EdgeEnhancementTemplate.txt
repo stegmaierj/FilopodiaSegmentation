@@ -1,0 +1,8 @@
+--output %OUTPUTPATH%
+--input 0, %INPUTFILE%, 3, float
+--xml EdgeEnhancement.xml
+--seed 0
+--lockfile off
+--subfolder filterid, filtername
+--outputformat imagename, filtername
+--end

@@ -1,0 +1,8 @@
+--output Temp/
+--input 0, Temp/x1Wnt8-GFPRor2-DNmemCherry_Series=3.tif, 3, float
+--xml EdgeEnhancement.xml
+--seed 0
+--lockfile off
+--subfolder filterid, filtername
+--outputformat imagename, filtername
+--end

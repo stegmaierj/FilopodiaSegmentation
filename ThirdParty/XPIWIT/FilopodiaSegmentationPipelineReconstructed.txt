@@ -1,0 +1,8 @@
+--output /Users/jstegmaier/Downloads/Processing/
+--input 0, /Users/jstegmaier/Downloads/C2-A6.tif, 2, float
+--xml /Users/jstegmaier/ScieboDrive/Projects/2021/Others/FilopodiaSegmentation/ThirdParty/XPIWIT/FilopodiaSegmentationPipelineReconstructed.xml
+--seed 0
+--lockfile off
+--subfolder filterid, filtername
+--outputformat imagename, filtername
+--end

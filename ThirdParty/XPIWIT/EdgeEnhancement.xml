@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpiwit>
+    <pipeline>
+        <item item_id="item_0003">
+            <name>MedianImageFilter</name>
+            <description>Median Filter. Filters the input with a median kernel.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0002" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="0"/>
+                <parameter key="WriteMetaData" value="1" type="1723177696"/>
+                <parameter key="MaxThreads" value="16" type="61567"/>
+                <parameter key="Radius" value="1" type="0"/>
+                <parameter key="FilterMask3D" value="0" type="63615"/>
+            </arguments>
+        </item>
+        <item item_id="item_0005">
+            <name>HessianToObjectnessMeasureImageFilter</name>
+            <description>Uses the hessian eigenvalues to enhance specific structures in the image.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0003" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="0"/>
+                <parameter key="WriteMetaData" value="1" type="1723177696"/>
+                <parameter key="MaxThreads" value="16" type="61567"/>
+                <parameter key="Sigma" value="1.0" type="0"/>
+                <parameter key="Alpha" value="1.0" type="63615"/>
+                <parameter key="Beta" value="1.0" type="0"/>
+                <parameter key="Gamma" value="0.1" type="63743"/>
+                <parameter key="ScaleObjectnessMeasure" value="0" type="0"/>
+                <parameter key="ObjectDimension" value="2" type="14745631"/>
+                <parameter key="BrightObject" value="1" type="14811167"/>
+                <parameter key="FilterMask3D" value="1" type="14745711"/>
+            </arguments>
+        </item>
+        <item item_id="item_0006">
+            <name>MultiplyImageFilter</name>
+            <description>Pixel-wise multiplication of two images.</description>
+            <input number_images="2" number_meta="0">
+                <image item_id_ref="item_0005" number_of_output="1" type_number="1"/>
+                <image item_id_ref="item_0003" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="0"/>
+                <parameter key="WriteMetaData" value="1" type="1723177696"/>
+                <parameter key="MaxThreads" value="16" type="61567"/>
+                <parameter key="Constant" value="0" type="0"/>
+            </arguments>
+        </item>
+        <item item_id="item_0007">
+            <name>BinaryThresholdImageFilter</name>
+            <description>Creates a binary image </description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0006" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="0"/>
+                <parameter key="WriteMetaData" value="1" type="1723177696"/>
+                <parameter key="MaxThreads" value="16" type="61567"/>
+                <parameter key="LowerThreshold" value="0.0000153" type="0"/>
+                <parameter key="UpperThreshold" value="1.0" type="63615"/>
+                <parameter key="OutsideValue" value="0.0" type="0"/>
+                <parameter key="InsideValue" value="1.0" type="63743"/>
+            </arguments>
+        </item>
+        <item item_id="item_0008">
+            <name>DiscreteGaussianImageFilter</name>
+            <description>Gaussian smothing filter. Filters the image with a gaussian kernel defined by variance.</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0007" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="1" type="3"/>
+                <parameter key="WriteMetaData" value="1" type="3"/>
+                <parameter key="MaxThreads" value="16" type="2"/>
+                <parameter key="Variance" value="1.0" type="1"/>
+                <parameter key="MaximumError" value="0.01" type="1"/>
+                <parameter key="MaximumKernelWidth" value="32" type="2"/>
+                <parameter key="UseImageSpacing" value="1" type="3"/>
+            </arguments>
+        </item>
+        <item item_id="item_0001">
+            <name>ImageReader</name>
+            <description>Reads image from disk</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="cmd" number_of_output="0"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="0"/>
+                <parameter key="WriteMetaData" value="1" type="1723177696"/>
+                <parameter key="MaxThreads" value="16" type="61567"/>
+                <parameter key="UseSeriesReader" value="0" type="0"/>
+                <parameter key="SeriesMinIndex" value="0" type="63615"/>
+                <parameter key="SeriesMaxIndex" value="499" type="0"/>
+                <parameter key="SpacingX" value="1" type="63743"/>
+                <parameter key="SpacingY" value="1" type="0"/>
+                <parameter key="SpacingZ" value="1" type="14745631"/>
+                <parameter key="FuseRotations" value="0" type="14811167"/>
+                <parameter key="FuseTranslationX" value="0.0" type="14745711"/>
+                <parameter key="FuseTranslationY" value="0.0" type="14745763"/>
+                <parameter key="FuseTranslationZ" value="0.0" type="14680095"/>
+                <parameter key="InputMaximumValue" value="65535" type="4"/>
+            </arguments>
+        </item>
+        <item item_id="item_0002">
+            <name>RescaleIntensityImageFilter</name>
+            <description>Rescales the image from min to max for integer types and from 0 to 1 for float types</description>
+            <input number_images="1" number_meta="0">
+                <image item_id_ref="item_0001" number_of_output="1" type_number="1"/>
+            </input>
+            <output number_images="1" number_meta="0">
+                <image number="1"/>
+            </output>
+            <arguments>
+                <parameter key="WriteResult" value="0" type="0"/>
+                <parameter key="WriteMetaData" value="1" type="1723177696"/>
+                <parameter key="MaxThreads" value="16" type="61567"/>
+            </arguments>
+        </item>
+    </pipeline>
+</xpiwit>
