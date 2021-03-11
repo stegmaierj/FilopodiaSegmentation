@@ -9,7 +9,7 @@ Starting XPIWIT
 Processing piped arguments
 ```
 
-After that works, youre all set to start segmenting filopodia. Simply open the respective start script `FilopodiaSegmentation2D.m` or `FilopodiaSegmentation3D.m` in MATLAB and hit the run button to execute the script. The following sections explain how to use the 2D and 3D version, respectively. For the 2D version, we also provide precompiled executable for Windows that can be downloaded [here]().
+After that works, youre all set to start segmenting filopodia. Simply open the respective start script `FilopodiaSegmentation2D.m` or `FilopodiaSegmentation3D.m` in MATLAB and hit the run button to execute the script. The following sections explain how to use the 2D and 3D version, respectively. For the 2D version, we also provide precompiled executable for Windows that can be downloaded [here](https://github.com/stegmaierj/FilopodiaSegmentation/Bin/FilopodiaSegmentation2D.zip).
 
 ## FilopodiaSegmentation2D
 The script first asks for a folder to process. This folder should contain 3-channel `*.tif` files and all images contained in the folder will be preprocessed and can be further analyzed in the GUI. Make sure to adjust the settings dialog according to the specs of your images. Most importantly, the script needs to know which channel corresponds to Brightfield/RFP/GFP, respectively. Moreover, to get correct length measurements it is important to set the physical pixel size in microns appropriately.
