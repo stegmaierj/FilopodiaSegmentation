@@ -14,7 +14,7 @@ After that works, youre all set to start segmenting filopodia. Simply open the r
 ## FilopodiaSegmentation2D
 The script first asks for a folder to process. This folder should contain 3-channel `*.tif` files and all images contained in the folder will be preprocessed and can be further analyzed in the GUI. Make sure to adjust the settings dialog according to the specs of your images. Most importantly, the script needs to know which channel corresponds to Brightfield/RFP/GFP, respectively. Moreover, to get correct length measurements it is important to set the physical pixel size in microns appropriately.
 
-![File Open Dialog](Data/Screenshots/ProjectSettings2D.png)
+<center><img src="Data/Screenshots/ProjectSettings2D.png" alt="Parameter Settings" width="250"></center>
 
 ### Workflow
 After the preprocessing finished, you should see a window like the following, which is the main workbench of the GUI:
