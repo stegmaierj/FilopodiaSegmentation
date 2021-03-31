@@ -229,7 +229,19 @@ if (isfield(settings, 'projectFileName') && ~isempty(settings.projectFileName))
         end
         
         if (isunix)
-           disp('Cell based measurements not yet supported for unix based systems...'); 
+           fileID = fopen([projectPath filesep file '_CellSummary.csv'], 'wb');
+           for j=1:size(cellSummaryTableCellArray,1)
+               for k=1:size(cellSummaryTableCellArray,2)
+                    if (j==1 || k==1)
+                        fprintf(fileID, '%s;', cellSummaryTableCellArray{j,k});
+                    else
+                        fprintf(fileID, '%.2f;', cellSummaryTableCellArray{j,k});
+                    end                   
+               end
+               
+               fprintf(fileID, '\n');
+           end
+           fclose(fileID);           
         else
             if (exist([projectPath filesep file '_CellSummary.csv'],'file'))
                 delete([projectPath filesep file '_CellSummary.csv']);
@@ -243,13 +255,13 @@ if (isfield(settings, 'projectFileName') && ~isempty(settings.projectFileName))
         end
         
         if (isunix)
-            summaryTable(i,1) = imagename;
-            summaryTable(i,2) = numCells;
-            summaryTable(i,3) = numFilopodiaCurrentCell;
-            summaryTable(i,4) = (averageLengthCurrentCell / numFilopodiaCurrentCell);
-            summaryTable(i,5) = minLengthCurrentCell;
-            summaryTable(i,6) = maxLengthCurrentCell;
-            summaryTable(i,7) = numWntPositiveCells;
+            summaryTableCellArray{i+1,1} = imagename;
+            summaryTableCellArray{i+1,2} = numCells;
+            summaryTableCellArray{i+1,3} = numFilopodiaCurrentCell;
+            summaryTableCellArray{i+1,4} = (averageLengthCurrentCell / numFilopodiaCurrentCell);
+            summaryTableCellArray{i+1,5} = minLengthCurrentCell;
+            summaryTableCellArray{i+1,6} = maxLengthCurrentCell;
+            summaryTableCellArray{i+1,7} = numWntPositiveCells;
         else
             summaryTableCellArray{i+1,1} = imagename;
             summaryTableCellArray{i+1,2} = numCells;
@@ -298,8 +310,20 @@ if (isfield(settings, 'projectFileName') && ~isempty(settings.projectFileName))
             if (exist(csvFileNameSummary, 'file'))
                 delete(csvFileNameSummary);
             end
-            dlmwrite(csvFileNameSummary, summaryTable, ';', 0, 0);
-            prepend2file('Image Name;Number of Cells;Number of Filopodia;Average Length of Filopodia (µm);Minimum Length (µm);Maximum Length (µm);Number of Wnt-Positive Filopodia;', csvFileNameSummary, true);
+            
+            fileID = fopen(csvFileNameSummary, 'wb');
+            for j=1:size(summaryTableCellArray,1)
+                for k=1:size(summaryTableCellArray,2)
+                    if (j==1 || k==1)
+                        fprintf(fileID, '%s;', summaryTableCellArray{j,k});
+                    else
+                        fprintf(fileID, '%.2f;', summaryTableCellArray{j,k});
+                    end
+                end
+                fprintf(fileID, '\n');
+            end
+            fclose(fileID);
+            %prepend2file('Image Name;Number of Cells;Number of Filopodia;Average Length of Filopodia (µm);Minimum Length (µm);Maximum Length (µm);Number of Wnt-Positive Filopodia;', csvFileNameSummary, true);
         end
     end
     
