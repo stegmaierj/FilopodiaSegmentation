@@ -35,7 +35,7 @@ function CloseRequestHandler(src,callbackdata)
     % Handle response
     switch choice
         case 'Yes'
-            saveProject;
+            SaveProject;
             delete(gcf);
         case 'No'
             delete(gcf);
